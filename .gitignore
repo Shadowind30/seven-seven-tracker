@@ -2,6 +2,8 @@
 # http://git-scm.com/docs/gitignore
 
 *~
+*~$*.docx
+*~$*.pptx
 *.sw[mnpcod]
 .tmp
 *.tmp
