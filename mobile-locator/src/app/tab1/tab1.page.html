@@ -6,6 +6,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
+<ion-content  [fullscreen]="true">
+  <ion-title>Ubicacion Actual</ion-title>
+  <ion-title *ngIf="!currentLocation">Cargando...</ion-title>
+  <div *ngIf="currentLocation" class="coords">
+    <p>Latitud: {{currentLocation.latitude}}</p>
+    <p>Longitud: {{currentLocation.longitude}}</p>
+    <p>Actualizado: {{currentTime}}</p>
+    <a href="https://www.google.com/maps/search/{{currentLocation.latitude}},
+      {{currentLocation.longitude}}">
+      Ver en el mapa
+    </a>
+  </div>
 </ion-content>
