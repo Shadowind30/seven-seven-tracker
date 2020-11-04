@@ -5,5 +5,6 @@ export interface CoordsInterface {
 
 export interface HistoryInterface {
     location: CoordsInterface,
-    time: string
+    time: string,
+    message?: string
 }

@@ -18,4 +18,11 @@
       Ver en el mapa
     </a>
   </div>
+  <div>
+    <input 
+    name="message" id="message" [disabled]="!currentLocation" 
+    [(ngModel)] = "messageField" placeholder="Escribir un mensaje..."
+    >
+    <ion-button (click)="sendMessage()">Enviar</ion-button>  
+  </div>
 </ion-content>

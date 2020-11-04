@@ -1,14 +1,26 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Mi historial
-    </ion-title>
+    <ion-title> Mi historial </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div *ngFor="let entry of locationHistory">
+  <!-- <div *ngFor="let entry of locationHistory">
     <p>Posicion: ({{entry.location.latitude}},{{entry.location.longitude}}</p>
     <p>Fecha: {{entry.time}}</p>
-  </div>
+    <p *ngIf="entry.message">Mensaje: {{entry.message}}</p>
+  </div> -->
+  <ion-card *ngFor="let entry of locationHistory">
+    <ion-item>
+      <ion-icon *ngIf="!entry.message" name="location-outline" slot="start"></ion-icon>
+      <ion-icon *ngIf="entry.message" name="chatbox-ellipses-outline" slot="start"></ion-icon>
+      <ion-label *ngIf="entry.message"> <ion-title>{{entry.message}}</ion-title></ion-label>
+      <ion-label *ngIf="!entry.message"> <ion-title>Ubicacion</ion-title></ion-label>
+    </ion-item>
+
+    <ion-card-content>
+      <p>Posicion: ({{entry.location.latitude}},{{entry.location.longitude}}</p>
+      <p>Fecha: {{entry.time}}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

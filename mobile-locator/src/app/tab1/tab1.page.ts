@@ -13,20 +13,26 @@ export class Tab1Page {
   currentLocation: CoordsInterface;
   currentTime: string;
   storage = localStorage;
-  locations: HistoryInterface[] = JSON.parse(this.storage.getItem('history')) || [];
+  locations: HistoryInterface[] = JSON.parse(this.storage.getItem("history")) || [];
   saveInterval: number = 60000;
+  messageField: string = "";
 
+  sendMessage() {
+    this.saveHistory(this.messageField);
+    this.messageField = "";
+   }
   getTime() {
     let date = new Date();
     return date.toLocaleString();
   }
 
-  saveHistory() {
+  saveHistory(newMessage?: string) {
     this.locations.push({
       location: this.currentLocation,
-      time: this.currentTime
+      time: this.currentTime,
+      message: newMessage || ""
     });
-    this.storage.setItem('history',JSON.stringify(this.locations));
+    this.storage.setItem("history",JSON.stringify(this.locations));
   }
 
   updateCoords () {
