@@ -13,16 +13,20 @@
     <p>Latitud: {{currentLocation.latitude}}</p>
     <p>Longitud: {{currentLocation.longitude}}</p>
     <p>Actualizado: {{currentTime}}</p>
-    <a href="https://www.google.com/maps/search/{{currentLocation.latitude}},
-      {{currentLocation.longitude}}">
+    <ion-button 
+    href="https://www.google.com/maps/search/{{currentLocation.latitude}},
+      {{currentLocation.longitude}}"
+      target="_blank"
+      color="secondary"
+      >
       Ver en el mapa
-    </a>
+  </ion-button>
   </div>
   <div>
     <input 
     name="message" id="message" [disabled]="!currentLocation" 
     [(ngModel)] = "messageField" placeholder="Escribir un mensaje..."
     >
-    <ion-button (click)="sendMessage()">Enviar</ion-button>  
+    <ion-button [disabled]="!currentLocation" (click)="sendMessage()">Enviar</ion-button>  
   </div>
 </ion-content>
