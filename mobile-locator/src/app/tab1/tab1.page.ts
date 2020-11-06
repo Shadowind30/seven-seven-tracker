@@ -1,5 +1,5 @@
-import { Component  } from "@angular/core";
-import { CoordsInterface, HistoryInterface } from '../shared/coords';
+import { Component } from "@angular/core";
+import { Coords, History } from "../shared/coords";
 import { GeolocationService } from "../services/geolocation.service";
 
 @Component({
@@ -8,51 +8,49 @@ import { GeolocationService } from "../services/geolocation.service";
   styleUrls: ["tab1.page.scss"],
 })
 export class Tab1Page {
-  constructor(private location: GeolocationService, ) {}
+  constructor(private location: GeolocationService) {}
 
-  currentLocation: CoordsInterface;
+  currentLocation: Coords;
   currentTime: string;
   storage = localStorage;
-  locations: HistoryInterface[] = JSON.parse(this.storage.getItem("history")) || [];
+  locations: History[] = JSON.parse(this.storage.getItem("history")) || [];
   saveInterval: number = 60000;
   messageField: string = "";
 
   sendMessage() {
     this.saveHistory(this.messageField);
     this.messageField = "";
-   }
+  }
   getTime() {
     let date = new Date();
     return date.toLocaleString();
   }
 
   saveHistory(newMessage?: string) {
-    this.locations.push({
+    this.locations.unshift({
       location: this.currentLocation,
-      time: this.currentTime,
-      message: newMessage || ""
+      time: this.getTime(),
+      message: newMessage || "",
     });
-    this.storage.setItem("history",JSON.stringify(this.locations));
+    this.storage.setItem("history", JSON.stringify(this.locations));
   }
 
-  updateCoords () {
+  updateCoords() {
     this.location.getPosition().then((res) => {
       this.currentLocation = res;
-      this.currentTime = this.getTime()
+      this.currentTime = this.getTime();
       console.log(this.currentLocation);
       this.saveHistory();
-    })
-    
+    });
   }
 
   ngOnInit() {
-    setTimeout(()=> {
+    setTimeout(() => {
       this.updateCoords();
-    },5000)
+    }, 5000);
 
     setInterval(() => {
       this.updateCoords();
-    },this.saveInterval)
+    }, this.saveInterval);
   }
-
 }

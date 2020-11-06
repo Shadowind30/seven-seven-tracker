@@ -1,26 +1,25 @@
-import { Component } from '@angular/core';
-import { HistoryInterface } from '../shared/coords';
-
+import { Component } from "@angular/core";
+import { History } from "../shared/coords";
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: "app-tab2",
+  templateUrl: "tab2.page.html",
+  styleUrls: ["tab2.page.scss"],
 })
 export class Tab2Page {
-
   constructor() {}
   storage = localStorage;
-  locationHistory: HistoryInterface[] = JSON.parse(this.storage.getItem('history')) || [];
-  
+  locationHistory: History[] =
+    JSON.parse(this.storage.getItem("history")) || [];
+
   refreshHistory() {
-    this.locationHistory = JSON.parse(this.storage.getItem('history')) || [];
+    this.locationHistory = JSON.parse(this.storage.getItem("history")) || [];
   }
 
   ngOnInit() {
+    this.refreshHistory();
     setInterval(() => {
-      this.refreshHistory()
-    }, 60000)
+      this.refreshHistory();
+    }, 60000);
   }
-
 }

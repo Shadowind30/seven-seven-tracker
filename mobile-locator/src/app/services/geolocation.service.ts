@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
-import { CoordsInterface } from '../shared/coords';
+import { Coords } from "../shared/coords";
 
 @Injectable({
   providedIn: "root",
@@ -9,10 +9,10 @@ export class GeolocationService {
   constructor(private geolocation: Geolocation) {}
 
   getPosition() {
-    let data: Promise<CoordsInterface> = this.geolocation
+    let data: Promise<Coords> = this.geolocation
       .getCurrentPosition()
       .then((resp) => {
-       return  {
+        return {
           latitude: resp.coords.latitude,
           longitude: resp.coords.longitude,
         };
@@ -22,10 +22,10 @@ export class GeolocationService {
         return {
           latitude: 0,
           longitude: 0,
-        }
+        };
       });
-      
-      return data;
+
+    return data;
   }
 
   // let watch = this.geolocation.watchPosition();

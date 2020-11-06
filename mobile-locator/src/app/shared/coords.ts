@@ -1,10 +1,10 @@
-export interface CoordsInterface {
+export interface Coords {
     latitude: number;
     longitude: number;
 }
 
-export interface HistoryInterface {
-    location: CoordsInterface,
+export interface History {
+    location: Coords,
     time: string,
     message?: string
 }

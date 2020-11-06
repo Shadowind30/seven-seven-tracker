@@ -12,21 +12,31 @@
   </div> -->
   <ion-card *ngFor="let entry of locationHistory">
     <ion-item>
-      <ion-icon *ngIf="!entry.message" name="location-outline" slot="start"></ion-icon>
-      <ion-icon *ngIf="entry.message" name="chatbox-ellipses-outline" slot="start"></ion-icon>
+      <ion-icon
+        *ngIf="!entry.message"
+        name="location-outline"
+        slot="start"
+      ></ion-icon>
+      <ion-icon
+        *ngIf="entry.message"
+        name="chatbox-ellipses-outline"
+        slot="start"
+      ></ion-icon>
       <ion-label *ngIf="entry.message"> <h3>{{entry.message}}</h3></ion-label>
       <ion-label *ngIf="!entry.message"> <h3>Ubicacion</h3></ion-label>
     </ion-item>
 
     <ion-card-content>
-      <p>Posicion: ({{entry.location.latitude}},{{entry.location.longitude}})</p>
+      <p>
+        Posicion: ({{entry.location.latitude}},{{entry.location.longitude}})
+      </p>
       <p>Fecha: {{entry.time}}</p>
-      <ion-button 
-      href="https://www.google.com/maps/search/{{entry.location.latitude}},
+      <ion-button
+        href="https://www.google.com/maps/search/{{entry.location.latitude}},
       {{entry.location.longitude}}"
-      target="_blank"
+        target="_blank"
       >
-      Ver en el mapa
+        Ver en el mapa
       </ion-button>
     </ion-card-content>
   </ion-card>
