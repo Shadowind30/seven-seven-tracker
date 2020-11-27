@@ -1,7 +1,0 @@
-{
-  "name": "mobile-locator",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
