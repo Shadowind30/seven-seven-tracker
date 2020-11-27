@@ -1,9 +1,9 @@
 {
-  "appId": "com.seven.mobilelocator",
+  "appId": "io.ionic.starter",
   "appName": "mobile-locator",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "www",
+  "webDir": "dist",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0

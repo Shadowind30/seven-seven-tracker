@@ -1,6 +1,11 @@
 import { Component } from "@angular/core";
 import { Coords, History } from "../shared/coords";
 import { GeolocationService } from "../services/geolocation.service";
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from "@angular/fire/firestore";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-tab1",
@@ -8,12 +13,20 @@ import { GeolocationService } from "../services/geolocation.service";
   styleUrls: ["tab1.page.scss"],
 })
 export class Tab1Page {
-  constructor(private location: GeolocationService) {}
+  private historyCollection: AngularFirestoreCollection<History>;
+  locations: Observable<History[]>; //History[] = JSON.parse(this.storage.getItem("history")) || [];
+
+  constructor(
+    private location: GeolocationService,
+    private fStore: AngularFirestore
+  ) {
+    this.historyCollection = fStore.collection<History>("history");
+    this.locations = this.historyCollection.valueChanges();
+  }
 
   currentLocation: Coords;
   currentTime: string;
   storage = localStorage;
-  locations: History[] = JSON.parse(this.storage.getItem("history")) || [];
   saveInterval: number = 60000;
   messageField: string = "";
 
@@ -27,12 +40,17 @@ export class Tab1Page {
   }
 
   saveHistory(newMessage?: string) {
-    this.locations.unshift({
+    this.historyCollection.add({
       location: this.currentLocation,
       time: this.getTime(),
       message: newMessage || "",
     });
-    this.storage.setItem("history", JSON.stringify(this.locations));
+    /*this.locations.unshift({
+      location: this.currentLocation,
+      time: this.getTime(),
+      message: newMessage || "",
+    });
+    this.storage.setItem("history", JSON.stringify(this.locations));*/
   }
 
   updateCoords() {

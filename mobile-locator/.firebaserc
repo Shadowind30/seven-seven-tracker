@@ -1,14 +1,5 @@
 {
   "projects": {
     "default": "seven-seven-tracker"
-  },
-  "targets": {
-    "seven-seven-tracker": {
-      "hosting": {
-        "app": [
-          "seven-seven-tracker"
-        ]
-      }
-    }
   }
 }
