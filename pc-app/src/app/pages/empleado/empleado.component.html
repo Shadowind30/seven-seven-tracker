@@ -1,0 +1,104 @@
+<h1>Registro</h1>
+<hr />
+
+<div class="row text-right">
+  <div class="col">
+    <button class="btn btn-danger" routerLink="/empleados">
+      <i class="fa fa-arrow-left"></i>
+      Regresar
+    </button>
+  </div>
+</div>
+
+<div class="row animated fadeIn faster">
+  <div class="col">
+    <!-- <form (ngSubmit)="guardar(f)" #f="ngForm"> -->
+    <!-- <div class="form-group">
+        <label>Firebase ID</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Firebase ID"
+          [(ngModel)]="empleado.id"
+          name="id"
+          disabled="disabled"
+        />
+        <small class="form-text text-muted">Este campo es autogenerado</small>
+      </div> -->
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nombre del usuario"
+        [(ngModel)]="campoNombre"
+        name="nombre"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Correo</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="campoCorreo"
+        name="correo"
+        placeholder="correo del usuario"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input
+        type="password"
+        class="form-control"
+        [(ngModel)]="campoPassword"
+        name="contraseña"
+        placeholder="Contraseña"
+      />
+    </div>
+
+    <div class="form-group text-center">
+      <button class="btn btn-primary w-25" (click)="agregarEmpleado()">
+        <i class="fa fa-save"></i>
+        Guardar
+      </button>
+    </div>
+
+    <!-- <div class="form-group">
+        <label>Estado</label>
+        <br />
+
+        <button
+          *ngIf="empleado.activo"
+          (click)="empleado.activo = false"
+          class="btn btn-outline-success w-50"
+          type="button"
+        >
+          <i class="fa fa-smile-wink"></i>
+          activo
+        </button>
+
+        <button
+          *ngIf="!empleado.activo"
+          (click)="empleado.activo = true"
+          class="btn btn-outline-danger w-50"
+          type="button"
+        >
+          <i class="fa fa-dizzy"></i>
+          desconectado
+        </button>
+      </div> -->
+
+    <!-- <hr />
+      <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary w-25">
+          <i class="fa fa-save"></i>
+          Guardar
+        </button>
+      </div> -->
+    <!-- </form> -->
+  </div>
+</div>

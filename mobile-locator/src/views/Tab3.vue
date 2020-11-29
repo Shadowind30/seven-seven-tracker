@@ -30,7 +30,7 @@
           >Entrar</ion-button
         >
       </div>
-      <div class="register-form" v-if="!isLoggedIn">
+      <!-- <div class="register-form" v-if="!isLoggedIn">
         <ion-item>
           <ion-label position="floating">Nombre</ion-label>
           <ion-input type="text" v-model="nameField"></ion-input>
@@ -48,7 +48,7 @@
           @click="register()"
           >Crear Cuenta</ion-button
         >
-      </div>
+      </div> -->
       <div v-if="isLoggedIn">
         <p v-if="!user.emailVerified">
           Su correo no ha sido verificado, antes de usar la aplicacion necesita

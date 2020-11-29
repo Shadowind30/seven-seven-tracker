@@ -1,0 +1,74 @@
+<h1>Listado de Empleados</h1>
+<hr />
+
+<div class="row">
+  <div class="col text-right">
+    <button routerLink="/empleado/nuevo" class="btn btn-primary">
+      <i class="fa fa-plus"></i>
+      Agregar
+    </button>
+  </div>
+</div>
+
+<table
+  *ngIf="!cargando && empleados.length > 0"
+  class="table mt-3 animated fadeIn faster animated fadeIn faster"
+>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">correo</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let empleado of empleados; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ empleado.nombre }}</td>
+      <td>{{ empleado.correo }}</td>
+      <td>
+        <label *ngIf="empleado.activo" class="badge badge-success"
+          >activo</label
+        >
+        <label *ngIf="!empleado.activo" class="badge badge-danger"
+          >desconectado</label
+        >
+      </td>
+      <td>
+        <button
+          class="btn btn-info mr-1"
+          [routerLink]="['/empleado', empleado.id]"
+        >
+          <i class="fa fa-pen"></i>
+        </button>
+
+        <button class="btn btn-danger" (click)="borrarEmpleado(empleado, i)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div
+  *ngIf="!cargando && empleados.length === 0"
+  class="alert alert-warning text-center mt-3 animated fadeIn faster"
+>
+  <h4 class="alert-heading">No hay registros</h4>
+  <p>
+    <i class="fa fa-exclamation fa-2x"></i>
+  </p>
+</div>
+
+<div
+  *ngIf="cargando"
+  class="alert alert-info text-center mt-3 animated fadeIn faster"
+>
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+  </p>
+  <p class="mb-0">Espere por favor</p>
+</div>
