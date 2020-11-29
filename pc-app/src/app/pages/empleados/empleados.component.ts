@@ -9,17 +9,19 @@ import Swal from "sweetalert2";
   styleUrls: ["./empleados.component.css"],
 })
 export class EmpleadosComponent implements OnInit {
-  empleados: EmpleadoModel[] = [];
   cargando = false;
+  empleados: EmpleadoModel[] = [];
 
   constructor(private empleadosService: EmpleadosService) {}
 
   ngOnInit() {
-    this.cargando = true;
-    this.empleadosService.getEmpleados().subscribe((resp) => {
-      this.empleados = resp;
-      this.cargando = false;
-    });
+    this.empleados = this.empleadosService.getEmpleados();
+    console.log("Cualquier Cosa ->", this.empleados);
+    // this.cargando = true;
+    // this.empleadosService.getEmpleados().subscribe((resp) => {
+    //   this.empleados = resp;
+    //   this.cargando = false;
+    // });
   }
 
   borrarEmpleado(empleado: EmpleadoModel, i: number) {

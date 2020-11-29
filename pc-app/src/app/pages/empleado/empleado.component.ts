@@ -32,6 +32,7 @@ export class EmpleadoComponent implements OnInit {
   }
 
   ngOnInit() {
+  
     //   const id = this.route.snapshot.paramMap.get("id");
     //   if (id !== "nuevo") {
     //     this.empleadosService.getEmpleado(id).subscribe((resp: EmpleadoModel) => {

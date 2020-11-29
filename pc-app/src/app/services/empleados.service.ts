@@ -11,6 +11,7 @@ import { environment } from "../../environments/environment";
 export class EmpleadosService {
   firebaseApp: any = firebase.initializeApp(environment.firebaseConfig);
   auth: any = this.firebaseApp.auth();
+  db: any = this.firebaseApp.firestore();
 
   private url = "https://crud-f7f04.firebaseio.com/";
 
@@ -34,12 +35,34 @@ export class EmpleadosService {
           user.user.sendEmailVerification();
           console.log("Verification Email sent");
           this.updateName(empleado.nombre);
+          this.guardarEmpleado(empleado);
         }
       });
   }
 
-  guardarEmpleado;
+  guardarEmpleado(empleado: any) {
+    this.db.collection(`users/${this.auth.currentUser.uid}/datos`).add({
+      nombre: empleado.nombre,
+      correo: empleado.correo,
+    });
+  }
 
+  getEmpleados() {
+    let empleados = [];
+    console.info("Started");
+    this.db
+      .collection(`users`)
+      .get()
+      .then((snapshot) => {
+        console.log("Got Snapshot");
+        return snapshot.docs.forEach((doc) => {
+          const empleado = doc.data();
+          empleados.unshift(empleado);
+        });
+      });
+    console.log("Finished, Array: ->", empleados);
+    return empleados;
+  }
   updateName(name: string) {
     this.auth.currentUser
       .updateProfile({
@@ -64,8 +87,6 @@ export class EmpleadosService {
   borrarEmpleado(id: string) {
     return this.http.delete(`${this.url}/empleados/${id}.json`);
   }
-
-  getEmpleado;
 
   /*
   getEmpleado(id: string) {
