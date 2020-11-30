@@ -58,11 +58,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "seven-seven-tracker:build"
+            "browserTarget": "heroesApp:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "seven-seven-tracker:build:production"
+              "browserTarget": "heroesApp:build:production"
             }
           }
         },
