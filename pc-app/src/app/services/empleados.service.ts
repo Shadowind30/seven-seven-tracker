@@ -41,9 +41,10 @@ export class EmpleadosService {
   }
 
   guardarEmpleado(empleado: any) {
-    this.db.collection(`users/${this.auth.currentUser.uid}/datos`).add({
+    this.db.collection(`users`).add({
       nombre: empleado.nombre,
       correo: empleado.correo,
+      id: this.auth.currentUser.uid,
     });
   }
 
@@ -51,16 +52,16 @@ export class EmpleadosService {
     let empleados = [];
     console.info("Started");
     this.db
-      .collection(`users`)
+      .collection("users/")
       .get()
       .then((snapshot) => {
         console.log("Got Snapshot");
-        return snapshot.docs.forEach((doc) => {
+        snapshot.docs.forEach((doc) => {
           const empleado = doc.data();
           empleados.unshift(empleado);
         });
+        console.log("Finished, Array: ->", empleados);
       });
-    console.log("Finished, Array: ->", empleados);
     return empleados;
   }
   updateName(name: string) {

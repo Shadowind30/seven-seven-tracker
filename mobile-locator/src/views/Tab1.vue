@@ -42,6 +42,8 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
 
 import {db, auth} from '../firebase'
 
+
+
 export default  {
   name: 'Tab1',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
@@ -49,8 +51,8 @@ export default  {
     latitude: 'Cargando...',
     longitude: 'Cargando...',
     currentTime: 'Cargando...',
-    history: JSON.parse(localStorage.getItem('history')) || [],
     formText: '',
+    user: {}
   }),
   methods:{
     getTime() {
@@ -58,12 +60,43 @@ export default  {
     return date.toLocaleString();
   },
 
-  addEntry(coords) {
-    db.collection(`users/${auth.currentUser.uid}/history`).add({
-    latitude: coords.latitude,
-    longitude: coords.longitude,
-    time: this.getTime(),
-    message: this.formText,
+  getUser(){
+     return new Promise( (resolve) => { let user = {};
+      db.collection("users")
+        .get()
+        .then((snapshot) => {
+            user = snapshot.docs.find((doc) => {
+            const u = doc.data();
+            if(u.id === auth.currentUser.uid) return true;
+          });
+        console.log('Matched User -> ', user.data());
+        return resolve(user);
+        });
+     })
+    },
+
+  async addEntry(coords, message = '') {
+    const rawUser = await this.getUser();
+    const user = rawUser.data()
+    let currentHistory = [];
+    if (user.history) {
+      currentHistory = JSON.parse(user.history);
+    }
+
+    currentHistory.unshift({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        time: this.getTime(),
+        message: message,
+      })
+
+    
+    console.log(user)
+    db.collection('users').doc(rawUser.id).update({
+      nombre: user.nombre,
+      correo: user.correo,
+      id: user.id,
+      history: JSON.stringify(currentHistory)
     });
 
     //localStorage.setItem('history', JSON.stringify(this.history))
@@ -78,21 +111,43 @@ export default  {
     });
     }
   },
+  // async getLocation(){
+  //  try {
+  //    const API_KEY = 'AIzaSyA2mGO8I-qBhHz0y7qQupiuz0ZLSR2Pt8A';
+  //     const data = await axios.get(
+  //        "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+  //        '18.4767221' +
+  //        "," +
+  //        '-69.79838219999999' +
+  //        `&key=${API_KEY}`
+  //     );
+  //     if (data.error_message) {
+  //        console.log(data.error_message)
+  //     } else {
+  //        console.log(data.results[0].formatted_address);
+  //     }
+  //  } catch (error) {
+  //     console.log(error.message);
+  //  }
+  //  console.log('done')
+  // },
   addMessage() {
     const currentCoords = {
       latitude: this.latitude,
       longitude: this.longitude,
       } 
-    this.addEntry(currentCoords)
+    this.addEntry(currentCoords, this.formText)
     this.formText = ''
-  }
   },
+},
   created(){
     this.getPosition();
     setInterval(this.getPosition, 300000);
-    fetch('http://worldtimeapi.org/api/timezone/America/Santo_Domingo')
-    .then(res => res.json())
-    .then(data => console.log(data.datetime))
-  },
-}
+    this.getUser();
+    //setInterval(this.getUser, 5000);
+    // fetch('http://worldtimeapi.org/api/timezone/America/Santo_Domingo')
+    // .then(res => res.json())
+    // .then(data => console.log(data.datetime))
+  }
+ }
 </script>

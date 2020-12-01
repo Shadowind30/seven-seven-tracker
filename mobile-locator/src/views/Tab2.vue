@@ -60,25 +60,28 @@ export default {
     return { chatboxEllipsesOutline, locationOutline, refreshCircleOutline };
   },
   data: () => ({
+    user: {},
     history:  [],
   }),
   methods: {
-    getHistory() {
-      this.history = [];
-      const user = auth.currentUser;
-      if (user) {
-      db.collection(`users/${user.uid}/history`)
-      .orderBy("time")
-      .get()
-      .then((snapshot) => {
-        return snapshot.docs.forEach((doc) => {
-          this.history.unshift(doc.data());
-          //console.log('History -> ', this.history);
+    getUser(){
+     return new Promise( (resolve) => { let user = {};
+      db.collection("users")
+        .get()
+        .then((snapshot) => {
+            user = snapshot.docs.find((doc) => {
+            const u = doc.data();
+            if(u.id === auth.currentUser.uid) return true;
+          });
+        console.log('Matched User -> ', user.data());
+        return resolve(user.data());
         });
+     })
+    },
 
-      }
-      );
-      }
+    async getHistory() {
+      const user = await this.getUser();
+      this.history = JSON.parse(user.history) || [];
     }
   },
   created(){
