@@ -36,7 +36,12 @@
           >desconectado</label
         >
       </td> -->
+
       <td>
+        <button class="btn btn-primary mr-1" (click)="abrirHistorial(empleado)">
+          <i class="fa fa-history"></i>
+        </button>
+
         <button
           class="btn btn-info mr-1"
           [routerLink]="['/empleado', empleado.id]"

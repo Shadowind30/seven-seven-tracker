@@ -48,21 +48,23 @@ export class EmpleadosService {
     });
   }
 
-  getEmpleados() {
-    let empleados = [];
-    console.info("Started");
-    this.db
-      .collection("users/")
-      .get()
-      .then((snapshot) => {
-        console.log("Got Snapshot");
-        snapshot.docs.forEach((doc) => {
-          const empleado = doc.data();
-          empleados.unshift(empleado);
+  async getEmpleados() {
+    return new Promise<any[]>((resolve) => {
+      let empleados: EmpleadoModel[] = [];
+      console.info("Started");
+      this.db
+        .collection("users")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            const empleado = doc.data();
+            empleado.history = JSON.parse(empleado.history);
+            empleados.unshift(empleado);
+          });
+          console.log("Finished, Array: ->", empleados);
+          return resolve(empleados);
         });
-        console.log("Finished, Array: ->", empleados);
-      });
-    return empleados;
+    });
   }
   updateName(name: string) {
     this.auth.currentUser

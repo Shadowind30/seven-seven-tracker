@@ -1,0 +1,72 @@
+<h1>Historial de {{ empleado.nombre }}</h1>
+<hr />
+
+<div class="row text-right">
+  <div class="col">
+    <button class="btn btn-danger" routerLink="/empleados">
+      <i class="fa fa-arrow-left"></i>
+      Regresar
+    </button>
+  </div>
+</div>
+
+<table class="table mt-3 animated fadeIn faster animated fadeIn faster">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Latitud</th>
+      <th scope="col">Longitude</th>
+      <th scope="col">Mensaje</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of empleado.history; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ entry.latitude }}</td>
+      <td>{{ entry.longitude }}</td>
+      <td *ngIf="entry.message">
+        <h4>{{ entry.message }}</h4>
+      </td>
+      <td *ngIf="!entry.message">Ubicacion</td>
+      <td>{{ entry.time }}</td>
+      <td>
+        <a
+          href="`https://www.google.com/maps/search/${latitude},${longitude}`"
+          target="_blank"
+        >
+          <!-- <button class="btn btn-primary mr-1">
+            <i class="fa fa-map"></i>
+          </button> -->
+          Ver Ubicacion
+        </a>
+      </td>
+      <!-- <td>
+        < <label *ngIf="empleado.activo" class="badge badge-success"
+          >activo</label
+        >
+        <label *ngIf="!empleado.activo" class="badge badge-danger"
+          >desconectado</label
+        >
+      </td>
+
+      <td>
+        <button class="btn btn-primary mr-1">
+          <i class="fa fa-history"></i>
+        </button>
+
+        <button
+          class="btn btn-info mr-1"
+          [routerLink]="['/empleado', empleado.id]"
+        >
+          <i class="fa fa-pen"></i>
+        </button>
+
+        <button class="btn btn-danger" (click)="borrarEmpleado(empleado, i)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td> -->
+    </tr>
+  </tbody>
+</table>

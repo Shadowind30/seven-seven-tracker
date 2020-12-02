@@ -8,9 +8,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { EmpleadoComponent } from "./pages/empleado/empleado.component";
 import { EmpleadosComponent } from "./pages/empleados/empleados.component";
+import { HistoryComponent } from './pages/history/history.component';
 
 @NgModule({
-  declarations: [AppComponent, EmpleadoComponent, EmpleadosComponent],
+  declarations: [AppComponent, EmpleadoComponent, EmpleadosComponent, HistoryComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
