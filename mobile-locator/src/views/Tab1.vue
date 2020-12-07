@@ -10,6 +10,7 @@
       <ion-title>Ubicacion Actual</ion-title>
       <!-- <ion-title>Cargando...</ion-title> -->
       <div class="coords">
+        <p>Ubicacion: {{ location }}</p>
         <p>Latitud: {{ latitude }}</p>
         <p>Longitud: {{ longitude }}</p>
         <p>Actualizado: {{ currentTime }}</p>
@@ -43,13 +44,13 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
 import {db, auth} from '../firebase'
 
 
-
 export default  {
   name: 'Tab1',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
   data: () => ({
     latitude: 'Cargando...',
     longitude: 'Cargando...',
+    location: 'Cargando...',
     currentTime: 'Cargando...',
     formText: '',
     user: {}
@@ -86,6 +87,7 @@ export default  {
     currentHistory.unshift({
         latitude: coords.latitude,
         longitude: coords.longitude,
+        location: this.getLocation(),
         time: this.getTime(),
         message: message,
       })
@@ -101,36 +103,46 @@ export default  {
 
     //localStorage.setItem('history', JSON.stringify(this.history))
   },
-  getPosition() {
+  getCoords() {
+    let coords;
+    return new Promise(resolve => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-      this.latitude = position.coords.latitude;
-      this.longitude = position.coords.longitude;
-      this.currentTime = this.getTime();
-      this.addEntry(position.coords)
-    });
+        navigator.geolocation.getCurrentPosition(position => {
+          coords = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+            }
+      console.info('Coords ->', coords)
+      resolve(coords); 
+      });
     }
+    })
   },
-  // async getLocation(){
-  //  try {
-  //    const API_KEY = 'AIzaSyA2mGO8I-qBhHz0y7qQupiuz0ZLSR2Pt8A';
-  //     const data = await axios.get(
-  //        "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-  //        '18.4767221' +
-  //        "," +
-  //        '-69.79838219999999' +
-  //        `&key=${API_KEY}`
-  //     );
-  //     if (data.error_message) {
-  //        console.log(data.error_message)
-  //     } else {
-  //        console.log(data.results[0].formatted_address);
-  //     }
-  //  } catch (error) {
-  //     console.log(error.message);
-  //  }
-  //  console.log('done')
-  // },
+  async getPosition() {
+      const coords = await this.getCoords();
+      this.latitude = coords.latitude;
+      this.longitude = coords.longitude; 
+      this.currentTime = this.getTime();
+      this.location = await this.getLocation(coords);
+      this.addEntry(coords); 
+  },
+  getLocation(coords){
+    let location;
+    const API_KEY = 'AIzaSyA2mGO8I-qBhHz0y7qQupiuz0ZLSR2Pt8A';
+    return new Promise(resolve => {
+    fetch(
+         "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+         coords.latitude +
+         "," +
+         coords.longitude +
+         `&key=${API_KEY}`
+      ).then(response => response.json()).then(data => {
+        console.log('The Location After Finsihed ->', data.results[0].formatted_address)
+        location = data.results[0].formatted_address
+        resolve(location);
+        })
+})
+ },
   addMessage() {
     const currentCoords = {
       latitude: this.latitude,

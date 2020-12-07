@@ -88,7 +88,8 @@ export class EmpleadosService {
   }
 
   borrarEmpleado(id: string) {
-    return this.http.delete(`${this.url}/empleados/${id}.json`);
+    
+    this.db.collection('users').doc(id).delete();
   }
 
   /*
